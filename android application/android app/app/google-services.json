@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "235841448165",
+    "firebase_url": "https://embedded-daafd-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "embedded-daafd",
+    "storage_bucket": "embedded-daafd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235841448165:android:42cee127d42a935f7f4c0c",
+        "android_client_info": {
+          "package_name": "com.example.khalood"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDI1xJ1yWgXVEcPrxGamHtyv8Gsmxr5tVU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

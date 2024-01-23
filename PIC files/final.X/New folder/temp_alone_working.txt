@@ -1,0 +1,79 @@
+#pragma config FOSC = HS        // Oscillator Selection bits (HS oscillator)
+#pragma config WDTE = OFF       // Watchdog Timer Enable bit (WDT disabled)
+#pragma config PWRTE = OFF      // Power-up Timer Enable bit (PWRT disabled)
+#pragma config BOREN = ON       // Brown-out Reset Enable bit (BOR enabled)
+#pragma config LVP = OFF         // Low-Voltage (Single-Supply) In-Circuit Serial Programming Enable bit (RB3/PGM pin has PGM function; low-voltage programming enabled)
+#pragma config CPD = OFF        // Data EEPROM Memory Code Protection bit (Data EEPROM code protection off)
+#pragma config WRT = OFF        // Flash Program Memory Write Enable bits (Write protection off; all program memory may be written to by EECON control)
+#pragma config CP = OFF         // Flash Program Memory Code Protection bit (Code protection off)
+
+#include <xc.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+#include "tmr0_interface.h"
+#include "adc_interface.h"
+#include "lcd_interface.h"
+#include "tmr0_interface.h"
+
+#define _XTAL_FREQ 20000000
+
+int main_state = -1;
+int adc_value = 0;
+int adc_value1 = 0;
+
+int tune = 0;
+
+
+
+sys_init()
+{
+    TRISD7 = 0; TRISB1 = 0; TRISB1 = 0; TRISB2 = 0; TRISB3 = 0; TRISB4 = 0; TRISB5 = 0;
+    TRISA0 = 1;
+    
+    lcd_init();
+    //uart_init();
+    adc_init();
+    
+}
+void main(void) {
+    
+    float adcT;
+    float volt, temp;
+    int temp1,c1,c2,c3,c4;
+
+    sys_init();
+    lcd_cmd(0x01);
+    lcd_cmd(0x80);
+    lcd_string("HELLO!!!");
+    __delay_ms(1000);
+    lcd_cmd(0x01);
+    
+    while (1)
+    {
+        adc_value1 = adc_read(0);
+        
+        volt = adc_value1*4.88281; // Convert it into the voltage 
+
+        temp=volt/10.0;  // Getting the temperature values 
+        temp1 = temp*100; 
+        c1 = (temp1/1000)%10;
+        c2 = (temp1/100)%10;
+        c3 = (temp1/10)%10;
+        c4 = (temp1/1)%10;
+             
+        lcd_cmd(0x01);
+        lcd_cmd(0x80);
+        lcd_string("Temp: ");
+        lcd_data(c1+'0');
+        lcd_data(c2+'0');
+        lcd_string(".");
+        lcd_data(c3+'0');
+        lcd_data(c4+'0');
+        lcd_data(0xDF);
+        lcd_string("C");
+        __delay_ms(3000);
+    }
+    return;
+}
